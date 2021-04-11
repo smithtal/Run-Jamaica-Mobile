@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image, View, PixelRatio} from 'react-native';
+import CustomButton from '../../components/CustomButton';
 
 function SplashScreen() {
   return (
@@ -19,6 +20,7 @@ function SplashScreen() {
           alignSelf: 'center',
         }}
       />
+      <CustomButton onPress={() => null}>SIGN UP</CustomButton>
     </View>
   );
 }
