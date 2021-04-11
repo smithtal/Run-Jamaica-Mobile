@@ -20,7 +20,11 @@ function SplashScreen() {
           alignSelf: 'center',
         }}
       />
-      <CustomButton onPress={() => null}>SIGN UP</CustomButton>
+      <CustomButton
+        onPress={() => null}
+        buttonStyle={{width: 300, alignSelf: 'center', marginTop: 155}}>
+        SIGN UP
+      </CustomButton>
     </View>
   );
 }
