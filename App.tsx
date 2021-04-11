@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SplashScreen from './screens/SplashScreen';
+import SplashScreen from './screens/splash/SplashScreen';
 
 function App() {
   return <SplashScreen />;
