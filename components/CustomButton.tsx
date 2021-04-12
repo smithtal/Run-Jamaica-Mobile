@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import {primary, white} from '../colors';
+import CustomText from './text/CustomText';
 
 interface CustomButtonProps extends TouchableWithoutFeedbackProps {
   buttonStyle?: StyleProp<ViewStyle>;
@@ -28,7 +29,6 @@ function CustomButton(props: CustomButtonProps) {
   } as StyleProp<ViewStyle>;
 
   const customTextStyle = {
-    color: white,
     textAlign: 'center',
     fontSize: 20,
     ...(textStyle as object),
@@ -39,7 +39,9 @@ function CustomButton(props: CustomButtonProps) {
       activeOpacity={1.0}
       style={customButtonStyle}
       {...otherProps}>
-      <Text style={customTextStyle}>{children}</Text>
+      <CustomText color={white} style={customTextStyle}>
+        {children}
+      </CustomText>
     </TouchableOpacity>
   );
 }

@@ -11,6 +11,7 @@ function CustomText(props: CustomTextProps) {
 
   const style = {
     color,
+    fontFamily: 'Roboto',
     ...(styleOverrides as object),
   } as StyleProp<ViewStyle>;
 
