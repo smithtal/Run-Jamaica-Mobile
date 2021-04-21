@@ -6,7 +6,7 @@ export interface CustomTextProps extends TextProps {
   color?: string;
 }
 
-function CustomText(props: CustomTextProps) {
+function CustomText(props: CustomTextProps): JSX.Element {
   const {children, color, style: styleOverrides, ...otherProps} = props;
 
   const style = {

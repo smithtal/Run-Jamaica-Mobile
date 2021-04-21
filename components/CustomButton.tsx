@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   StyleProp,
-  Text,
   TextStyle,
   TouchableOpacity,
   TouchableWithoutFeedbackProps,
@@ -17,7 +16,7 @@ interface CustomButtonProps extends TouchableWithoutFeedbackProps {
   children: React.ReactNode;
 }
 
-function CustomButton(props: CustomButtonProps) {
+function CustomButton(props: CustomButtonProps): JSX.Element {
   const {children, buttonStyle, textStyle, ...otherProps} = props;
 
   const customButtonStyle = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text} from 'react-native';
 
-function SignInScreen() {
+function SignInScreen(): JSX.Element {
   return <Text>Sign In</Text>;
 }
 

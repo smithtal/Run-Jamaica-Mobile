@@ -15,7 +15,7 @@ export type StackParamList = {
 
 const Stack = createStackNavigator<StackParamList>();
 
-function App() {
+function App(): JSX.Element {
   return (
     <NavigationContainer>
       <Stack.Navigator
