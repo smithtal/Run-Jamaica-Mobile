@@ -1,5 +1,5 @@
 import React from 'react';
-import {Animated, Image, View} from 'react-native';
+import {Image, View} from 'react-native';
 import SecondaryText from '../../components/text/SecondaryText';
 import PrimaryText from '../../components/text/PrimaryText';
 import {CustomTextInput} from '../../components/form/CustomTextInput';
@@ -8,10 +8,16 @@ import CustomText from '../../components/text/CustomText';
 import LinkText from '../../components/text/LinkText';
 import {signup, SignupRequestBody} from '../../services/auth';
 import {KeyboardAwareView} from '../../components/form/KeyboardAwareView';
+import {AuthContext} from '../../contexts/auth.context';
 
 function SignUpScreen(): JSX.Element {
+  const {setAccessToken, setRefreshToken} = React.useContext(AuthContext);
+
   const handleFormSubmit = async (fields: SignupRequestBody) => {
-    const {accessToken} = await signup(fields);
+    const {accessToken, refreshToken} = await signup(fields);
+
+    setAccessToken(accessToken);
+    setRefreshToken(refreshToken);
   };
 
   return (

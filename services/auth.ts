@@ -6,10 +6,15 @@ export interface SignupRequestBody {
   password: string;
 }
 
+export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export async function signup(
   signupRequestBody: SignupRequestBody,
-): Promise<{accessToken: string}> {
-  const {data} = await axios.post<{accessToken: string}>(
+): Promise<AuthResponse> {
+  const {data} = await axios.post<AuthResponse>(
     'http://localhost:3000/auth/signup',
     signupRequestBody,
   );
