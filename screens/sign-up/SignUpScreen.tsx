@@ -8,7 +8,7 @@ import CustomText from '../../components/text/CustomText';
 import LinkText from '../../components/text/LinkText';
 import {signup, SignupRequestBody} from '../../services/auth';
 import {KeyboardAwareView} from '../../components/form/KeyboardAwareView';
-import {AuthContext} from '../../contexts/auth.context';
+import {AuthContext} from '../../components/auth/auth.context';
 
 function SignUpScreen(): JSX.Element {
   const {setAccessToken, setRefreshToken} = React.useContext(AuthContext);
