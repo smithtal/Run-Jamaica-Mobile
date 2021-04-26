@@ -4,7 +4,9 @@ import {textPrimary} from '../../colors';
 
 import CustomText, {CustomTextProps} from './CustomText';
 
-function PrimaryText(props: CustomTextProps): JSX.Element {
+function PrimaryText(
+  props: React.PropsWithChildren<CustomTextProps>,
+): JSX.Element {
   return <CustomText color={textPrimary} {...props} />;
 }
 

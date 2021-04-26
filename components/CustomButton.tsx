@@ -13,10 +13,11 @@ import CustomText from './text/CustomText';
 interface CustomButtonProps extends TouchableWithoutFeedbackProps {
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
-  children: React.ReactNode;
 }
 
-function CustomButton(props: CustomButtonProps): JSX.Element {
+function CustomButton(
+  props: React.PropsWithChildren<CustomButtonProps>,
+): JSX.Element {
   const {children, buttonStyle, textStyle, ...otherProps} = props;
 
   const customButtonStyle = {

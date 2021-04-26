@@ -2,7 +2,9 @@ import React from 'react';
 import {TextInput, TextInputProps} from 'react-native';
 import {textSecondary} from '../../colors';
 
-export function CustomTextInput(props: TextInputProps): JSX.Element {
+export function CustomTextInput(
+  props: React.PropsWithChildren<TextInputProps>,
+): JSX.Element {
   const {style, ...otherProps} = props;
 
   return (

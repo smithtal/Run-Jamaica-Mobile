@@ -14,6 +14,7 @@ function SignUpScreen(): JSX.Element {
   const {setAccessToken, setRefreshToken} = React.useContext(AuthContext);
 
   const handleFormSubmit = async (fields: SignupRequestBody) => {
+    //TODO: Handle error that can happen here.
     const {accessToken, refreshToken} = await signup(fields);
 
     setAccessToken(accessToken);

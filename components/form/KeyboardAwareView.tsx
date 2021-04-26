@@ -7,10 +7,11 @@ import {
 
 export interface KeyboardAwareViewProps extends ViewProps {
   animationOptions?: KeyboardAnimationOptions;
-  children?: React.ReactNode;
 }
 
-export function KeyboardAwareView(props: KeyboardAwareViewProps) {
+export function KeyboardAwareView(
+  props: React.PropsWithChildren<KeyboardAwareViewProps>,
+) {
   const {animationOptions, style, children, ...otherProps} = props;
 
   const shift = useKeyboardAnimation(animationOptions);

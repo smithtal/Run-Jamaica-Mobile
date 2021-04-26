@@ -21,3 +21,14 @@ export async function signup(
 
   return data;
 }
+
+export async function refreshCredentials(
+  refreshToken: string,
+): Promise<{accessToken: string}> {
+  const {data} = await axios.post<{accessToken: string}>(
+    'http://localhost:3000/auth/refresh',
+    {refreshToken},
+  );
+
+  return data;
+}
