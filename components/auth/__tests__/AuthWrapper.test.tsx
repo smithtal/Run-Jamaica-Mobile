@@ -26,6 +26,11 @@ describe('AuthWrapper', () => {
     );
   };
 
+  beforeEach(() => {
+    /* Stop legitimate console.error from appearing in logs. */
+    jest.spyOn(console, 'error').mockImplementationOnce(() => {});
+  });
+
   it('renders without error', () => {
     renderComponent();
   });
@@ -38,5 +43,18 @@ describe('AuthWrapper', () => {
     });
     expect(getItemMock).toHaveBeenCalled();
     expect(refreshCredentialsMock).toHaveBeenCalledWith('refresh-token');
+  });
+
+  it('removes stored refresh token if there is an error fetching new credentials', async () => {
+    getItemMock.mockResolvedValue('refresh-token');
+    refreshCredentialsMock.mockRejectedValueOnce({
+      message: 'error refreshing credentials',
+    });
+
+    await waitFor(() => {
+      renderComponent();
+    });
+
+    expect(removeItemMock).toHaveBeenCalled();
   });
 });
