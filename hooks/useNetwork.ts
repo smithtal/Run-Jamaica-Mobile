@@ -54,7 +54,7 @@ function networkReducer<T>(
       return {
         ...state,
         status: 'complete',
-        data: action.payload.data,
+        data: action.payload?.data,
         error: undefined,
       };
     case 'ERROR':
@@ -62,7 +62,7 @@ function networkReducer<T>(
         ...state,
         status: 'error',
         data: undefined,
-        error: action.payload.error,
+        error: action.payload?.error,
       };
   }
 }
