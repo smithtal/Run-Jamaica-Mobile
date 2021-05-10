@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {textSecondary} from '../../colors';
+import {textSecondary} from '../../constants/colors';
 
 import CustomText, {CustomTextProps} from './CustomText';
 

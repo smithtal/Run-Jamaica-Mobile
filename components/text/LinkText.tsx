@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CustomText, {CustomTextProps} from './CustomText';
-import {primary} from '../../colors';
+import {primary} from '../../constants/colors';
 
 function LinkText(
   props: React.PropsWithChildren<CustomTextProps>,

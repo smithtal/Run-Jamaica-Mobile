@@ -34,7 +34,7 @@ function SignUpScreen(): JSX.Element {
       setRefreshToken(data?.refreshToken!);
     } else if (status === 'error') {
       if (error.response && error.response.status === 409) {
-        setErrorMessage(`This username is already registered.`);
+        setErrorMessage(`This email address is already registered.`);
       } else {
         setErrorMessage(`Unable to sign up, try again later.`);
       }

@@ -7,7 +7,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import {primary, white} from '../colors';
+import {primary, white} from '../constants/colors';
 import CustomText from './text/CustomText';
 
 interface CustomButtonProps extends TouchableWithoutFeedbackProps {
