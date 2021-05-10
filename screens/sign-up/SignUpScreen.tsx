@@ -6,20 +6,40 @@ import {CustomTextInput} from '../../components/form/CustomTextInput';
 import CustomButton from '../../components/CustomButton';
 import CustomText from '../../components/text/CustomText';
 import LinkText from '../../components/text/LinkText';
-import {signup, SignupRequestBody} from '../../services/auth';
+import {AuthResponse, signup, SignupRequestBody} from '../../services/auth';
 import {KeyboardAwareView} from '../../components/form/KeyboardAwareView';
 import {AuthContext} from '../../components/auth/auth.context';
+import ErrorMessage from '../../components/message/ErrorMessage';
+import useNetwork from '../../hooks/useNetwork';
 
 function SignUpScreen(): JSX.Element {
   const {setAccessToken, setRefreshToken} = React.useContext(AuthContext);
 
-  const handleFormSubmit = async (fields: SignupRequestBody) => {
-    //TODO: Handle error that can happen here.
-    const {accessToken, refreshToken} = await signup(fields);
+  const [signInStatus, triggerSignIn] = useNetwork<
+    AuthResponse,
+    SignupRequestBody
+  >(signup);
 
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
+  const [errorMessage, setErrorMessage] = React.useState('');
+
+  const handleFormSubmit = async (fields: SignupRequestBody) => {
+    await triggerSignIn(fields);
   };
+
+  React.useEffect(() => {
+    const {status, data, error} = signInStatus;
+
+    if (status === 'complete') {
+      setAccessToken(data?.accessToken!);
+      setRefreshToken(data?.refreshToken!);
+    } else if (status === 'error') {
+      if (error.response && error.response.status === 409) {
+        setErrorMessage(`This username is already registered.`);
+      } else {
+        setErrorMessage(`Unable to sign up, try again later.`);
+      }
+    }
+  }, [signInStatus.status]);
 
   return (
     <KeyboardAwareView
@@ -43,7 +63,11 @@ function SignUpScreen(): JSX.Element {
           alignSelf: 'center',
         }}
       />
-      <SignupForm onSubmit={handleFormSubmit} />
+      <SignupForm
+        onSubmit={handleFormSubmit}
+        error={signInStatus.status === 'error'}
+        errorMessage={errorMessage}
+      />
       <CustomText style={{width: '55%', textAlign: 'center', marginTop: 20}}>
         <CustomText>By using this app you agree to our </CustomText>
         <LinkText>Terms of Use </LinkText>
@@ -56,6 +80,8 @@ function SignUpScreen(): JSX.Element {
 
 interface SignupFormProps {
   onSubmit: (fields: SignupRequestBody) => void;
+  error?: boolean;
+  errorMessage?: string;
 }
 
 function SignupForm(props: SignupFormProps): JSX.Element {
@@ -95,6 +121,7 @@ function SignupForm(props: SignupFormProps): JSX.Element {
         secureTextEntry
         value={confirmPassword}
       />
+      {props.error && <ErrorMessage>{props.errorMessage}</ErrorMessage>}
       <CustomButton buttonStyle={{marginTop: 35}} onPress={handleSubmit}>
         SIGN UP
       </CustomButton>

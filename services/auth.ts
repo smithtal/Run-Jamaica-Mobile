@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ErrorMessage} from '../types/error-message';
 
 export interface SignupRequestBody {
   name: string;
