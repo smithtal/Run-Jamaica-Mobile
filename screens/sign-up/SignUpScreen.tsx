@@ -11,6 +11,8 @@ import {KeyboardAwareView} from '../../components/form/KeyboardAwareView';
 import {AuthContext} from '../../components/auth/auth.context';
 import ErrorMessage from '../../components/message/ErrorMessage';
 import useNetwork from '../../hooks/useNetwork';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
 
 function SignUpScreen(): JSX.Element {
   const {setAccessToken, setRefreshToken} = React.useContext(AuthContext);
@@ -85,47 +87,84 @@ interface SignupFormProps {
 }
 
 function SignupForm(props: SignupFormProps): JSX.Element {
-  const {onSubmit} = props;
-
-  const [name, setName] = React.useState<string>('');
-  const [emailAddress, setEmailAddress] = React.useState<string>('');
-  const [password, setPassword] = React.useState<string>('');
-  const [confirmPassword, setConfirmPassword] = React.useState<string>('');
-
-  const handleSubmit = (): void => {
-    if (password === confirmPassword) {
-      onSubmit({name, emailAddress, password});
-    } else {
-      console.error('Mismatch');
-    }
+  type SignupFormFields = {
+    name: string;
+    emailAddress: string;
+    password: string;
+    confirmPassword: string;
   };
 
+  const {onSubmit} = props;
+
+  const initialValues: SignupFormFields = {
+    name: '',
+    emailAddress: '',
+    password: '',
+    confirmPassword: '',
+  };
+
+  const SignupFormSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, 'Name is too short')
+      .max(160, 'Name is too long.')
+      .required('Name is required.'),
+    emailAddress: Yup.string()
+      .email('Invalid email address.')
+      .required('Email address is required.'),
+    password: Yup.string().required('Password is required.'),
+    confirmPassword: Yup.string().oneOf([
+      Yup.ref('password'),
+      'Must match password',
+    ]),
+  });
+
   return (
-    <View style={{width: '70%'}}>
-      <CustomTextInput onChangeText={setName} placeholder="Name" value={name} />
-      <CustomTextInput
-        onChangeText={setEmailAddress}
-        placeholder="Email"
-        keyboardType="email-address"
-        value={emailAddress}
-      />
-      <CustomTextInput
-        onChangeText={setPassword}
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-      />
-      <CustomTextInput
-        onChangeText={setConfirmPassword}
-        placeholder="Confirm Password"
-        secureTextEntry
-        value={confirmPassword}
-      />
-      {props.error && <ErrorMessage>{props.errorMessage}</ErrorMessage>}
-      <CustomButton buttonStyle={{marginTop: 35}} onPress={handleSubmit}>
-        SIGN UP
-      </CustomButton>
-    </View>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={SignupFormSchema}>
+      {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => {
+        console.log('Touched: ', touched);
+        return (
+          <View style={{width: '70%'}}>
+            <CustomTextInput
+              onChangeText={handleChange('name')}
+              placeholder="Name"
+              value={values.name}
+              onBlur={handleBlur('name')}
+              hasError={(errors.name && touched.name) as boolean}
+              errorMessage={errors.name}
+              maxLength={160}
+            />
+            <CustomTextInput
+              onChangeText={handleChange('emailAddress')}
+              placeholder="Email"
+              keyboardType="email-address"
+              value={values.emailAddress}
+              onBlur={handleBlur('emailAddress')}
+            />
+            <CustomTextInput
+              onChangeText={handleChange('password')}
+              placeholder="Password"
+              secureTextEntry
+              value={values.password}
+              onBlur={handleBlur('password')}
+            />
+            <CustomTextInput
+              onChangeText={handleChange('confirmPassword')}
+              placeholder="Confirm Password"
+              secureTextEntry
+              value={values.confirmPassword}
+              onBlur={handleBlur('confirmPassword')}
+            />
+            {props.error && <ErrorMessage>{props.errorMessage}</ErrorMessage>}
+            <CustomButton buttonStyle={{marginTop: 35}} onPress={handleSubmit}>
+              SIGN UP
+            </CustomButton>
+          </View>
+        );
+      }}
+    </Formik>
   );
 }
 export default SignUpScreen;
