@@ -42,7 +42,9 @@ export function useKeyboardAnimation(
         ) => {
           const fieldHeight = height;
           const fieldTop = pageY;
-          const gap = windowHeight - keyboardHeight - (fieldTop + fieldHeight);
+          let gap =
+            windowHeight - keyboardHeight - (fieldTop + 2 * fieldHeight);
+
           if (gap < 0) {
             Animated.timing(shift, {
               toValue: gap,

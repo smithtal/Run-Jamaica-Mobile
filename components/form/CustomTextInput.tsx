@@ -69,7 +69,7 @@ export function CustomTextInput(props: CustomTextInputProps): JSX.Element {
         onBlur={handleBlur}
       />
       {hasError && (
-        <Text style={{color: error, fontSize: 12}}>{errorMessage}</Text>
+        <Text style={{color: error, fontSize: 10}}>{errorMessage}</Text>
       )}
     </View>
   );

@@ -103,7 +103,7 @@ function SignupForm(props: SignupFormProps): JSX.Element {
     confirmPassword: '',
   };
 
-  const SignupFormSchema = Yup.object().shape({
+  const SignupFormSchema = Yup.object({
     name: Yup.string()
       .min(2, 'Name is too short')
       .max(160, 'Name is too long.')
@@ -112,10 +112,10 @@ function SignupForm(props: SignupFormProps): JSX.Element {
       .email('Invalid email address.')
       .required('Email address is required.'),
     password: Yup.string().required('Password is required.'),
-    confirmPassword: Yup.string().oneOf([
-      Yup.ref('password'),
-      'Must match password',
-    ]),
+    confirmPassword: Yup.string().oneOf(
+      [Yup.ref('password'), null],
+      'Must match password.',
+    ),
   });
 
   return (
@@ -142,6 +142,10 @@ function SignupForm(props: SignupFormProps): JSX.Element {
               keyboardType="email-address"
               value={values.emailAddress}
               onBlur={handleBlur('emailAddress')}
+              hasError={
+                (errors.emailAddress && touched.emailAddress) as boolean
+              }
+              errorMessage={errors.emailAddress}
             />
             <CustomTextInput
               onChangeText={handleChange('password')}
@@ -149,6 +153,8 @@ function SignupForm(props: SignupFormProps): JSX.Element {
               secureTextEntry
               value={values.password}
               onBlur={handleBlur('password')}
+              hasError={(errors.password && touched.password) as boolean}
+              errorMessage={errors.password}
             />
             <CustomTextInput
               onChangeText={handleChange('confirmPassword')}
@@ -156,6 +162,10 @@ function SignupForm(props: SignupFormProps): JSX.Element {
               secureTextEntry
               value={values.confirmPassword}
               onBlur={handleBlur('confirmPassword')}
+              hasError={
+                (touched.confirmPassword && errors.confirmPassword) as boolean
+              }
+              errorMessage={errors.confirmPassword}
             />
             {props.error && <ErrorMessage>{props.errorMessage}</ErrorMessage>}
             <CustomButton buttonStyle={{marginTop: 35}} onPress={handleSubmit}>
