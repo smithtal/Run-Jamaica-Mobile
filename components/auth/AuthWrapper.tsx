@@ -62,12 +62,16 @@ export const AuthWrapper: React.FunctionComponent<AuthWrapperProps> = props => {
 
   const retrievedAccessToken = data?.accessToken;
   React.useEffect(() => {
-    if (status === 'complete') {
-      setAccessToken(retrievedAccessToken);
-    } else if (status === 'error') {
-      setAccessToken(undefined);
-      setRefreshToken(undefined);
-    }
+    const handleRefreshComplete = async () => {
+      if (status === 'complete') {
+        setAccessToken(retrievedAccessToken);
+      } else if (status === 'error') {
+        await EncryptedStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY);
+        setAccessToken(undefined);
+        setRefreshToken(undefined);
+      }
+    };
+    handleRefreshComplete();
   }, [status, retrievedAccessToken]);
 
   return (

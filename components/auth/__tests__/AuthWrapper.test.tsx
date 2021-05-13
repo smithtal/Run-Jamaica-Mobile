@@ -7,10 +7,9 @@ import {render, waitFor} from '@testing-library/react-native';
 import {AuthWrapper} from '../AuthWrapper';
 import {refreshCredentials} from '../../../services/auth';
 
-const {getItem, setItem, removeItem} = EncryptedStorage;
+const {getItem, removeItem} = EncryptedStorage;
 
 const getItemMock = getItem as jest.Mock;
-const setItemMock = setItem as jest.Mock;
 const removeItemMock = removeItem as jest.Mock;
 
 const refreshCredentialsMock = refreshCredentials as jest.Mock;
@@ -47,6 +46,7 @@ describe('AuthWrapper', () => {
 
   it('removes stored refresh token if there is an error fetching new credentials', async () => {
     getItemMock.mockResolvedValue('refresh-token');
+
     refreshCredentialsMock.mockRejectedValueOnce({
       message: 'error refreshing credentials',
     });
