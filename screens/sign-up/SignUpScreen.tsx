@@ -124,7 +124,6 @@ function SignupForm(props: SignupFormProps): JSX.Element {
       onSubmit={onSubmit}
       validationSchema={SignupFormSchema}>
       {({handleChange, handleBlur, handleSubmit, values, touched, errors}) => {
-        console.log('Touched: ', touched);
         return (
           <View style={{width: '70%'}}>
             <CustomTextInput

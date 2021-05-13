@@ -1,5 +1,6 @@
 import React from 'react';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import useNetwork from '../../hooks/useNetwork';
 import {refreshCredentials} from '../../services/auth';
 
 import {AuthContext} from './auth.context';
@@ -17,6 +18,11 @@ export const AuthWrapper: React.FunctionComponent<AuthWrapperProps> = props => {
 
   const {renderWhenAuthenticated, renderWhenUnauthenticated} = props;
 
+  const [{status, data}, triggerRefresh] = useNetwork<
+    {accessToken: string},
+    string
+  >(refreshCredentials);
+
   React.useEffect(() => {
     const authenticateWithStoredCredentials = async (): Promise<void> => {
       try {
@@ -24,14 +30,9 @@ export const AuthWrapper: React.FunctionComponent<AuthWrapperProps> = props => {
           REFRESH_TOKEN_STORAGE_KEY,
         );
         if (storedRefreshToken) {
-          setRefreshToken(storedRefreshToken);
-          const {accessToken} = await refreshCredentials(storedRefreshToken);
-          setAccessToken(accessToken);
+          await triggerRefresh(storedRefreshToken);
         }
       } catch (error) {
-        console.error(
-          `Error refreshing existing credentials: ${error.message}`,
-        );
         await EncryptedStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY);
         setAccessToken(undefined);
         setRefreshToken(undefined);
@@ -49,8 +50,6 @@ export const AuthWrapper: React.FunctionComponent<AuthWrapperProps> = props => {
           refreshToken!,
         );
       } catch (error) {
-        //TODO: This should trigger an error message and push to the home screen.
-        console.error(`Error storing refresh credentials: ${error.message}`);
         setAccessToken(undefined);
         setRefreshToken(undefined);
       }
@@ -60,6 +59,16 @@ export const AuthWrapper: React.FunctionComponent<AuthWrapperProps> = props => {
       storeRefreshToken();
     }
   }, [refreshToken]);
+
+  const retrievedAccessToken = data?.accessToken;
+  React.useEffect(() => {
+    if (status === 'complete') {
+      setAccessToken(retrievedAccessToken);
+    } else if (status === 'error') {
+      setAccessToken(undefined);
+      setRefreshToken(undefined);
+    }
+  }, [status, retrievedAccessToken]);
 
   return (
     <AuthContext.Provider
