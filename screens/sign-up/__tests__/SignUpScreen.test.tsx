@@ -95,8 +95,8 @@ describe('SignUpScreen', () => {
     });
   });
 
-  it('when the signup service returns a 409 status an error message says the emailAddress is taken', async () => {
-    const signUpSpy = jest
+  it('shows an error message saying the email address is taken when the service returns a status of 409', async () => {
+    jest
       .spyOn(authServices, 'signup')
       .mockRejectedValue({response: {status: 409}});
 
@@ -108,6 +108,22 @@ describe('SignUpScreen', () => {
 
     await waitFor(() => {
       expect(getByText('This email address is already registered.'));
+    });
+  });
+
+  it('shows a general error message when the service throws an exception', async () => {
+    jest
+      .spyOn(authServices, 'signup')
+      .mockRejectedValue({response: {status: 500}});
+
+    const wrapper = renderForm();
+
+    completeForm(wrapper);
+
+    const {getByText} = wrapper;
+
+    await waitFor(() => {
+      expect(getByText('Unable to sign up, try again later.'));
     });
   });
 });
