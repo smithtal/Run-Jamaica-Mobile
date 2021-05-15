@@ -73,4 +73,18 @@ describe('useNetwork', () => {
       <TestComponent callTrigger networkCallBack={resolvedWithDataCallBack} />
     ));
   });
+
+  it('changes the status to error when the callback throws an error', async () => {
+    const rejectWithErrorCallback = (): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        reject('ERROR');
+        expect(status).toEqual('error');
+        expect(error).toEqual('Error');
+      });
+    };
+
+    await waitFor(() => (
+      <TestComponent callTrigger networkCallBack={rejectWithErrorCallback} />
+    ));
+  });
 });
