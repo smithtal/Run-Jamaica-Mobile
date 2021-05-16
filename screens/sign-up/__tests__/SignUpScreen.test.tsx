@@ -162,7 +162,7 @@ describe('SignUpScreen', () => {
 
       it('shows an error message when name is longer than 160 characters', async () => {
         const wrapper = renderForm();
-        const {getByPlaceholderText, getByText, debug} = wrapper;
+        const {getByPlaceholderText, getByText} = wrapper;
 
         const nameInput = getByPlaceholderText('Name');
 
@@ -171,6 +171,81 @@ describe('SignUpScreen', () => {
 
         await waitFor(() => {
           expect(getByText('Name is too long.'));
+        });
+      });
+    });
+    describe('Email Address', () => {
+      it('shows an error message when an email address is missing', async () => {
+        const wrapper = renderForm();
+        const {getByPlaceholderText, getByText} = wrapper;
+
+        const emailAddressInput = getByPlaceholderText('Email');
+
+        fireEvent(emailAddressInput, 'onChangeText', '');
+        fireEvent(emailAddressInput, 'onBlur', {target: {}});
+
+        await waitFor(() => {
+          expect(getByText('Email address is required.'));
+        });
+      });
+      it('shows an error message when an invalid email address is provided', async () => {
+        const wrapper = renderForm();
+        const {getByPlaceholderText, getByText} = wrapper;
+
+        const emailAddressInput = getByPlaceholderText('Email');
+
+        fireEvent(emailAddressInput, 'onChangeText', 'test@example,com');
+        fireEvent(emailAddressInput, 'onBlur', {target: {}});
+
+        await waitFor(() => {
+          expect(getByText('Email address is invalid.')).toBeDefined();
+        });
+      });
+    });
+    describe('Password', () => {
+      it('shows an error message if the password is missing', async () => {
+        const wrapper = renderForm();
+        const {getByPlaceholderText, getByText} = wrapper;
+
+        const passwordInput = getByPlaceholderText('Password');
+
+        fireEvent(passwordInput, 'onChangeText', '');
+        fireEvent(passwordInput, 'onBlur', {target: {}});
+
+        await waitFor(() => {
+          expect(getByText('Password is required.')).toBeDefined();
+        });
+      });
+    });
+    describe('Confirm Password', () => {
+      it('shows an error message if confirm password is missing', async () => {
+        const wrapper = renderForm();
+        const {getByPlaceholderText, getByText} = wrapper;
+
+        const confirmPasswordInput = getByPlaceholderText('Confirm Password');
+
+        fireEvent(confirmPasswordInput, 'onChangeText', '');
+        fireEvent(confirmPasswordInput, 'onBlur', {target: {}});
+
+        await waitFor(() => {
+          expect(getByText('Confirm Password is required.')).toBeDefined();
+        });
+      });
+      it('shows an error message if password and confirmation do not match', async () => {
+        const wrapper = renderForm();
+        const {getByPlaceholderText, getByText} = wrapper;
+
+        const passwordInput = getByPlaceholderText('Password');
+        const confirmPasswordInput = getByPlaceholderText('Confirm Password');
+
+        fireEvent(passwordInput, 'onChangeText', 'Password123');
+        fireEvent(passwordInput, 'onBlur', {target: {}});
+
+        fireEvent(confirmPasswordInput, 'onChangeText', 'Password345');
+        fireEvent(confirmPasswordInput, 'onBlur', {target: {}});
+
+        await waitFor(() => {
+          expect(getByText('Must match password.')).toBeDefined();
         });
       });
     });
