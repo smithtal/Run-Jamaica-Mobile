@@ -5,7 +5,7 @@ import {StackParamList} from '../../App';
 
 import CustomButton from '../../components/CustomButton';
 import LinkText from '../../components/text/LinkText';
-import PrimaryText from '../../components/text/PrimaryText';
+import PrimaryText from '../../components/text/SecondaryText';
 
 type SplashScreenNavigationProp = StackNavigationProp<StackParamList, 'Splash'>;
 
@@ -13,7 +13,7 @@ interface SplashScreenProps {
   navigation: SplashScreenNavigationProp;
 }
 
-function SplashScreen(props: SplashScreenProps) {
+function SplashScreen(props: SplashScreenProps): JSX.Element {
   const {navigation} = props;
 
   const navigateToSignUpPage = () => {

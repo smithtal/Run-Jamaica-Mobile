@@ -6,6 +6,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from './screens/splash/SplashScreen';
 import SignUpScreen from './screens/sign-up/SignUpScreen';
 import SignInScreen from './screens/sign-in/SignInScreen';
+import {Text} from 'react-native';
+import {AuthWrapper} from './components/auth/AuthWrapper';
 
 export type StackParamList = {
   Splash: undefined;
@@ -15,7 +17,16 @@ export type StackParamList = {
 
 const Stack = createStackNavigator<StackParamList>();
 
-function App() {
+function App(): JSX.Element {
+  return (
+    <AuthWrapper
+      renderWhenAuthenticated={DashboardStack}
+      renderWhenUnauthenticated={DefaultStack}
+    />
+  );
+}
+
+function DefaultStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -27,6 +38,10 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
+}
+
+function DashboardStack() {
+  return <Text>This is a test.</Text>;
 }
 
 export default App;

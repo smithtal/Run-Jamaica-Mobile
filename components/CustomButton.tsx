@@ -1,23 +1,23 @@
 import React from 'react';
 import {
   StyleProp,
-  Text,
   TextStyle,
   TouchableOpacity,
   TouchableWithoutFeedbackProps,
   ViewStyle,
 } from 'react-native';
 
-import {primary, white} from '../colors';
+import {primary, white} from '../constants/colors';
 import CustomText from './text/CustomText';
 
 interface CustomButtonProps extends TouchableWithoutFeedbackProps {
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
-  children: React.ReactNode;
 }
 
-function CustomButton(props: CustomButtonProps) {
+function CustomButton(
+  props: React.PropsWithChildren<CustomButtonProps>,
+): JSX.Element {
   const {children, buttonStyle, textStyle, ...otherProps} = props;
 
   const customButtonStyle = {

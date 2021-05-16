@@ -1,12 +1,13 @@
 import React from 'react';
-import {Text} from 'react-native';
 
-import {textPrimary} from '../../colors';
+import {textPrimary} from '../../constants/colors';
 
-import {CustomTextProps} from './CustomText';
+import CustomText, {CustomTextProps} from './CustomText';
 
-function PrimaryText(props: CustomTextProps) {
-  return <Text color={textPrimary} {...props} />;
+function PrimaryText(
+  props: React.PropsWithChildren<CustomTextProps>,
+): JSX.Element {
+  return <CustomText color={textPrimary} {...props} />;
 }
 
 export default PrimaryText;
