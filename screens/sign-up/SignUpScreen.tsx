@@ -105,7 +105,7 @@ function SignupForm(props: SignupFormProps): JSX.Element {
 
   const SignupFormSchema = Yup.object({
     name: Yup.string()
-      .min(2, 'Name is too short')
+      .min(2, 'Name is too short.')
       .max(160, 'Name is too long.')
       .required('Name is required.'),
     emailAddress: Yup.string()
