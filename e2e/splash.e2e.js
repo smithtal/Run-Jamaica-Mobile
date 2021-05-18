@@ -1,4 +1,4 @@
-describe('Example', () => {
+describe('Splash Screen', () => {
   beforeAll(async () => {
     await device.launchApp({newInstance: true});
   });
