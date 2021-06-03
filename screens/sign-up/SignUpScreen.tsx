@@ -45,6 +45,7 @@ function SignUpScreen(): JSX.Element {
 
   return (
     <KeyboardAwareView
+      testID="sign-up-screen"
       style={{
         flexDirection: 'column',
         alignItems: 'center',

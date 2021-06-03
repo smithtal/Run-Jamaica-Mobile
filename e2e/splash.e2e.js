@@ -13,6 +13,11 @@ describe('Splash Screen', () => {
 
   it('shows the sign up screen when the sign up button is clicked', async () => {
     await element(by.text('SIGN UP')).tap();
-    await expect(element(by.text('Create Account,'))).toBeVisible();
+    await expect(element(by.id('sign-up-screen'))).toBeVisible();
+  });
+
+  it('shows the sign in screen when the Sign in button is pressed', async () => {
+    await element(by.id('sign-in-button')).tap();
+    await expect(element(by.id('sign-in-screen'))).toBeVisible();
   });
 });
