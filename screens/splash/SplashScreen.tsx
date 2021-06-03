@@ -6,6 +6,7 @@ import {StackParamList} from '../../App';
 import CustomButton from '../../components/CustomButton';
 import LinkText from '../../components/text/LinkText';
 import PrimaryText from '../../components/text/SecondaryText';
+import SplashScreenStyle from './SplashScreen.style';
 
 type SplashScreenNavigationProp = StackNavigationProp<StackParamList, 'Splash'>;
 
@@ -25,35 +26,27 @@ function SplashScreen(props: SplashScreenProps): JSX.Element {
   };
 
   return (
-    <View
-      testID="splash-screen"
-      style={{
-        flex: 1,
-        flexDirection: 'column',
-        paddingTop: 165,
-      }}>
+    <View testID="splash-screen" style={SplashScreenStyle.container}>
       <Image
         source={require('./img/run-jamaica-logo.png')}
-        style={{
-          width: 350,
-          height: 200,
-          resizeMode: 'contain',
-          alignSelf: 'center',
-        }}
+        style={SplashScreenStyle.signupIcon}
       />
       <CustomButton
         onPress={navigateToSignUpPage}
-        buttonStyle={{width: 300, alignSelf: 'center', marginTop: 155}}>
+        buttonStyle={SplashScreenStyle.signupButton}>
         SIGN UP
       </CustomButton>
-      <Text style={{textAlign: 'center', marginTop: 20}}>
-        <PrimaryText style={{fontSize: 14}}>
+      <View style={SplashScreenStyle.signInTextContainer}>
+        <PrimaryText style={SplashScreenStyle.signInText}>
           Already have an account?{' '}
         </PrimaryText>
-        <LinkText style={{fontSize: 14}} onPress={navigateToSignInPage}>
+        <LinkText
+          style={SplashScreenStyle.signInText}
+          onPress={navigateToSignInPage}
+          testID="sign-in-button">
           Sign in
         </LinkText>
-      </Text>
+      </View>
     </View>
   );
 }

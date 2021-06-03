@@ -7,6 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
+    "e2e": "detox test --configuration android",
+    "e2e:build": "detox build --configuration android",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
@@ -36,8 +38,10 @@
     "@types/react-native": "^0.64.0",
     "@types/react-test-renderer": "^16.9.2",
     "babel-jest": "^26.6.3",
+    "detox": "^18.13.0",
     "eslint": "^7.14.0",
     "jest": "^26.6.3",
+    "jest-circus": "^26.6.3",
     "metro-react-native-babel-preset": "^0.64.0",
     "react-test-renderer": "17.0.1",
     "typescript": "^3.8.3"
@@ -47,6 +51,7 @@
   },
   "jest": {
     "preset": "react-native",
+    "testRegex": ".*(test|spec).(ts|js)",
     "setupFilesAfterEnv": [
       "<rootDir>/setupJest.js"
     ],
