@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {API_BASE_URL} from '../config';
 
 export interface SignupRequestBody {
   name: string;
@@ -15,7 +16,7 @@ export async function signup(
   signupRequestBody: SignupRequestBody,
 ): Promise<AuthResponse> {
   const {data} = await axios.post<AuthResponse>(
-    'http://localhost:3000/auth/signup',
+    `${API_BASE_URL}/auth/signup`,
     signupRequestBody,
   );
 
@@ -26,7 +27,7 @@ export async function refreshCredentials(
   refreshToken: string,
 ): Promise<{accessToken: string}> {
   const {data} = await axios.post<{accessToken: string}>(
-    'http://localhost:3000/auth/refresh',
+    `${API_BASE_URL}/auth/refresh`,
     {refreshToken},
   );
 
