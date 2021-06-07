@@ -12,7 +12,7 @@ import * as authServices from '../../../services/auth';
 describe('SingInScreen', () => {
   let setAccessToken: jest.Mock<string, any>;
   let setRefreshToken: jest.Mock<string, any>;
-  let signInSpy: jest.Sp;
+  let signInSpy: jest.MockInstance<any, any>;
 
   const renderComponent = (): RenderAPI => {
     return render(
