@@ -14,6 +14,7 @@ import {AuthResponse, signIn} from '../../services/auth';
 import {SignInCredentials} from '../../types/sign-in-credentials';
 import {AuthContext} from '../../components/auth/auth.context';
 import ErrorMessage from '../../components/message/ErrorMessage';
+import * as Yup from 'yup';
 
 function SignInScreen(): JSX.Element {
   return (
@@ -69,8 +70,16 @@ function SignInForm() {
     }
   }, [status]);
 
+  const SignInValidationSchema = Yup.object().shape({
+    emailAddress: Yup.string().email().required('Email Address is required.'),
+    password: Yup.string().required('Password is required.'),
+  });
+
   return (
-    <Formik initialValues={initialValues} onSubmit={triggerSignIn}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={triggerSignIn}
+      validationSchema={SignInValidationSchema}>
       {({handleChange, handleBlur, values, errors, touched, submitForm}) => {
         return (
           <View>
