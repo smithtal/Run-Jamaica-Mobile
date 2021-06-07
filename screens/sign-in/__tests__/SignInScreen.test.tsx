@@ -27,6 +27,10 @@ describe('SingInScreen', () => {
     setRefreshToken = jest.fn();
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders without crashing', () => {
     const {container} = renderComponent();
     expect(container).toBeDefined();
@@ -49,6 +53,16 @@ describe('SingInScreen', () => {
         emailAddress: 'test@example.com',
         password: 'password',
       });
+    });
+  });
+
+  it('does not call the login endpoint when the form is incomplete', async () => {
+    const {getByText} = renderComponent();
+
+    fireEvent.press(getByText('LOGIN'));
+
+    await waitFor(() => {
+      expect(signInSpy).not.toHaveBeenCalled();
     });
   });
 });
