@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {API_BASE_URL} from '../config';
+import {SignInCredentials} from '../types/sign-in-credentials';
 
 export interface SignupRequestBody {
   name: string;
@@ -29,6 +30,17 @@ export async function refreshCredentials(
   const {data} = await axios.post<{accessToken: string}>(
     `${API_BASE_URL}/auth/refresh`,
     {refreshToken},
+  );
+
+  return data;
+}
+
+export async function signIn(
+  credentials: SignInCredentials,
+): Promise<AuthResponse> {
+  const {data} = await axios.post<AuthResponse>(
+    `${API_BASE_URL}/auth/signin`,
+    credentials,
   );
 
   return data;
