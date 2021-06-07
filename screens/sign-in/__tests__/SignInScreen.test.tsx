@@ -63,6 +63,8 @@ describe('SingInScreen', () => {
 
     await waitFor(() => {
       expect(signInSpy).not.toHaveBeenCalled();
+      expect(getByText('Email Address is required.'));
+      expect(getByText('Password is required.'));
     });
   });
 });
