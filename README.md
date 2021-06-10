@@ -48,3 +48,7 @@ Configuration Values:
 <ul>
     <li><code>API_URL</code>: URL for a running instance of <a href="https://github.com/smithtal/RunJamaicaAPI">Run Jamaica API</a>.</li>
 </ul>
+
+## Testing
+
+The application provides unit tests exectuted using `npm test`. E2E tests are also provided with `npm run e2e`.
