@@ -29,14 +29,16 @@ describe('SignUpScreen', () => {
     );
   };
 
-  const testName = 'Test User';
+  const testFirstName = 'Test';
+  const testLastName = 'User';
   const testEmailAddress = 'test@example.net';
   const testPassword = 'Password123';
 
   const completeForm = (
     wrapper: RenderAPI,
     {
-      name = testName,
+      firstName = testFirstName,
+      lastName = testLastName,
       emailAddress = testEmailAddress,
       password = testPassword,
       confirmPassword = testPassword,
@@ -44,7 +46,9 @@ describe('SignUpScreen', () => {
   ) => {
     const {getByText, getByPlaceholderText} = wrapper;
 
-    fireEvent(getByPlaceholderText('Name'), 'onChangeText', name);
+    fireEvent(getByPlaceholderText('First Name'), 'onChangeText', firstName);
+
+    fireEvent(getByPlaceholderText('Last Name'), 'onChangeText', lastName);
 
     fireEvent(getByPlaceholderText('Email'), 'onChangeText', emailAddress);
 
@@ -86,7 +90,8 @@ describe('SignUpScreen', () => {
 
     await waitFor(() => {
       expect(signUpSpy).toHaveBeenCalledWith({
-        name: 'Test User',
+        firstName: 'Test',
+        lastName: 'User',
         emailAddress: 'test@example.net',
         password: 'Password123',
         confirmPassword: 'Password123',
@@ -132,45 +137,45 @@ describe('SignUpScreen', () => {
 
   describe('Form validation', () => {
     describe('Name', () => {
-      it('shows an error message when `name` is missing', async () => {
+      it('shows an error message when `firstName` is missing', async () => {
         const wrapper = renderForm();
         const {getByPlaceholderText, getByText} = wrapper;
 
-        const nameInput = getByPlaceholderText('Name');
+        const firstNameInput = getByPlaceholderText('First Name');
 
-        fireEvent(nameInput, 'onFocus');
-        fireEvent(nameInput, 'onBlur', {target: {}});
+        fireEvent(firstNameInput, 'onFocus');
+        fireEvent(firstNameInput, 'onBlur', {target: {}});
 
         await waitFor(() => {
           expect(getByText('Name is required.'));
         });
       });
 
-      it('shows an error message when name is 1 or fewer characters', async () => {
+      it('shows an error message when name is longer than 256 characters', async () => {
         const wrapper = renderForm();
         const {getByPlaceholderText, getByText} = wrapper;
 
-        const nameInput = getByPlaceholderText('Name');
+        const nameInput = getByPlaceholderText('First Name');
 
-        fireEvent(nameInput, 'onChangeText', 'T');
-        fireEvent(nameInput, 'onBlur', {target: {}});
-
-        await waitFor(() => {
-          expect(getByText('Name is too short.'));
-        });
-      });
-
-      it('shows an error message when name is longer than 160 characters', async () => {
-        const wrapper = renderForm();
-        const {getByPlaceholderText, getByText} = wrapper;
-
-        const nameInput = getByPlaceholderText('Name');
-
-        fireEvent(nameInput, 'onChangeText', 'T'.repeat(161));
+        fireEvent(nameInput, 'onChangeText', 'T'.repeat(256));
         fireEvent(nameInput, 'onBlur', {target: {}});
 
         await waitFor(() => {
           expect(getByText('Name is too long.'));
+        });
+      });
+
+      it('does not show an error when `lastName` is missing', async () => {
+        const wrapper = renderForm();
+        const {getByPlaceholderText} = wrapper;
+
+        const lastNameInput = getByPlaceholderText('Last Name');
+
+        fireEvent(lastNameInput, 'onFocus');
+        fireEvent(lastNameInput, 'onBlur', {target: {}});
+
+        await waitFor(() => {
+          expect(lastNameInput.props.style.borderColor).toBe('#C4C4C4');
         });
       });
     });

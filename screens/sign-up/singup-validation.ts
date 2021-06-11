@@ -1,10 +1,10 @@
 import * as Yup from 'yup';
 
 const SignupFormSchema = Yup.object({
-  name: Yup.string()
-    .min(2, 'Name is too short.')
-    .max(160, 'Name is too long.')
+  firstName: Yup.string()
+    .max(255, 'Name is too long.')
     .required('Name is required.'),
+  lastName: Yup.string().max(255, 'Name is too long.'),
   emailAddress: Yup.string()
     .email('Email address is invalid.')
     .required('Email address is required.'),

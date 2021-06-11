@@ -3,7 +3,8 @@ import {API_BASE_URL} from '../config';
 import {SignInCredentials} from '../types/sign-in-credentials';
 
 export interface SignupRequestBody {
-  name: string;
+  firstName: string;
+  lastName?: string;
   emailAddress: string;
   password: string;
 }

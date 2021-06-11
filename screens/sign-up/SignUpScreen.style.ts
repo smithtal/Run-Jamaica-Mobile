@@ -7,7 +7,7 @@ export default StyleSheet.create({
   },
   heading: {
     width: '80%',
-    marginTop: 40,
+    marginTop: 25,
     marginBottom: 30,
   },
   title: {
