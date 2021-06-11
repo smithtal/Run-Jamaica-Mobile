@@ -5,7 +5,7 @@ import {
   fireEvent,
   waitFor,
 } from '@testing-library/react-native';
-import SignInScreen from '../SignInScreen';
+import SignInScreen, {SignInScreenProps} from '../SignInScreen';
 import {AuthContext} from '../../../components/auth/auth.context';
 import * as authServices from '../../../services/auth';
 
@@ -13,11 +13,12 @@ describe('SingInScreen', () => {
   let setAccessToken: jest.Mock<string, any>;
   let setRefreshToken: jest.Mock<string, any>;
   let signInSpy: jest.MockInstance<any, any>;
+  let navigationMock: any = {};
 
   const renderComponent = (): RenderAPI => {
     return render(
       <AuthContext.Provider value={{setAccessToken, setRefreshToken}}>
-        <SignInScreen />
+        <SignInScreen navigation={navigationMock} />
       </AuthContext.Provider>,
     );
   };
@@ -25,6 +26,7 @@ describe('SingInScreen', () => {
   beforeEach(() => {
     setAccessToken = jest.fn();
     setRefreshToken = jest.fn();
+    navigationMock.navigate = jest.fn();
   });
 
   afterEach(() => {
@@ -66,5 +68,13 @@ describe('SingInScreen', () => {
       expect(getByText('Email Address is required.'));
       expect(getByText('Password is required.'));
     });
+  });
+
+  it('navigates to the SignUp page when the Sign up link is pressed', () => {
+    const {getByText} = renderComponent();
+
+    fireEvent.press(getByText('Sign up'));
+
+    expect(navigationMock.navigate).toHaveBeenCalledWith('SignUp');
   });
 });
