@@ -6,42 +6,63 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from './screens/splash/SplashScreen';
 import SignUpScreen from './screens/sign-up/SignUpScreen';
 import SignInScreen from './screens/sign-in/SignInScreen';
-import {Text} from 'react-native';
 import {AuthWrapper} from './components/auth/AuthWrapper';
-
-export type StackParamList = {
-  Splash: undefined;
-  SignUp: undefined;
-  SignIn: undefined;
-};
-
-const Stack = createStackNavigator<StackParamList>();
+import HomeScreen from './screens/home/HomeScreen';
+import Container from './components/container/Container';
 
 function App(): JSX.Element {
   return (
     <AuthWrapper
       renderWhenAuthenticated={DashboardStack}
-      renderWhenUnauthenticated={DefaultStack}
+      renderWhenUnauthenticated={UnauthenticatedStack}
     />
   );
 }
 
-function DefaultStack() {
+export type DefaultStackParamList = {
+  Splash: undefined;
+  SignUp: undefined;
+  SignIn: undefined;
+};
+
+const DefaultStack = createStackNavigator<DefaultStackParamList>();
+function UnauthenticatedStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
+      <DefaultStack.Navigator
         initialRouteName="Splash"
         screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-      </Stack.Navigator>
+        <DefaultStack.Screen name="Splash" component={SplashScreen} />
+        <DefaultStack.Screen name="SignUp" component={SignUpScreen} />
+        <DefaultStack.Screen name="SignIn" component={SignInScreen} />
+      </DefaultStack.Navigator>
     </NavigationContainer>
   );
 }
 
+export type DashboardStackParamList = {
+  Home: undefined;
+};
+
+const AuthenticatedStack = createStackNavigator<DashboardStackParamList>();
 function DashboardStack() {
-  return <Text>This is a test.</Text>;
+  const withContainer = (
+    component: () => JSX.Element | null,
+  ): (() => JSX.Element) => {
+    return (): JSX.Element => <Container>{component()}</Container>;
+  };
+  return (
+    <NavigationContainer>
+      <AuthenticatedStack.Navigator
+        initialRouteName="Home"
+        screenOptions={{headerShown: false}}>
+        <AuthenticatedStack.Screen
+          name="Home"
+          component={withContainer(HomeScreen)}
+        />
+      </AuthenticatedStack.Navigator>
+    </NavigationContainer>
+  );
 }
 
 export default App;
