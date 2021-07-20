@@ -21,7 +21,7 @@
     "jwt-decode": "^3.1.2",
     "npm": "^7.9.0",
     "react": "17.0.1",
-    "react-native": "0.64.0",
+    "react-native": "0.64.1",
     "react-native-config": "^1.4.2",
     "react-native-encrypted-storage": "^4.0.2",
     "react-native-gesture-handler": "^1.10.3",
